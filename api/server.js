@@ -13,4 +13,9 @@ server.use(express.json());
 
 server.use('/api/auth', authRouter);
 
+server.get('/', (req, res) => {
+    const newThing = ({ thing: 'Cool', yep: 'yes'})
+    res.status(200).json(newThing)
+})
+
 module.exports = server;
