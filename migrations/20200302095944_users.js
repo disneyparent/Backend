@@ -2,29 +2,29 @@
 exports.up = function(knex) {
   return knex.schema
     .createTable('users', users => {
-        users.increments();
-
-        users
-        .string('username', 255)
-        .notNullable()
-        .unique();
-        users.string('password', 255).notNullable();
+      users.increments()
+      users
+      .string('username', 255)
+      .notNullable()
+      .unique()
+      users.string('password', 255).notNullable();
     })
     .createTable('buggies', buggies => {
-        buggies.increments()
-
-        buggies.boolean('is_double').defaultTo(false)
-        buggies.boolean('is_taken').defaultTo(false)
-        buggies.string('location').notNullable()
+      buggies.increments()
+      buggies.boolean('is_double').defaultTo(false)
+      buggies.boolean('available').defaultTo(true)
+      buggies.string('location').notNullable().notNullable()
     })
-    .createTable('owned_buggies', buggies => {
-        buggies.increments()
-        buggies.integer('user_id').unsigned().references('user.id')
-        buggies.integer('buggie_id').unsigned().references('buggie.id')
-        buggies.boolean('active').defaultTo(true)
+    .createTable('user_buggies', obuggies => {
+      obuggies.increments()
+      obuggies.integer('user_id').unsigned().references('users.user_id')
+      obuggies.integer('buggie_id').unsigned().references('buggies.id').onDelete('CASCADE')
     })
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('users');
+  return knex.schema
+    .dropTableIfExists('user_buggies')
+    .dropTableIfExists('buggies')
+    .dropTableIfExists('users')
 };
