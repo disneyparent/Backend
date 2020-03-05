@@ -17,7 +17,7 @@ exports.up = function(knex) {
     })
     .createTable('user_buggies', obuggies => {
       obuggies.increments()
-      obuggies.integer('user_id').unsigned().references('users.user_id')
+      obuggies.integer('user_id').unsigned().references('users.id')
       obuggies.integer('buggie_id').unsigned().references('buggies.id').onDelete('CASCADE')
     })
 };
