@@ -112,7 +112,32 @@ Response:
         "location": "toystory"
     }
 ```
-#### PUT *api/buggies:id*
+
+#### GET *api/buggies/pickedup*
+
+An array of buggies that have been picked up by specific users.
+
+Request:
+```javascript
+// No input needed
+```
+Response:
+```javascript
+[
+	{
+        	"id": 1,
+        	"user_id": 2,
+        	"buggie_id": 1
+    	},
+	{
+        	"id": 2,
+        	"user_id": 1,
+        	"buggie_id": 2
+    	},
+]
+```
+
+#### PUT *api/buggies/:id*
 
 Updating buggie, most likely for changing the buggies availability from true to false, and some times for editing a buggies location.
 
@@ -152,7 +177,7 @@ Response:
     }
 ```
 
-#### POST *api/buggies:id/pickup*
+#### POST *api/buggies/:id/pickup*
 
 When picking a buggy up, a user will navigate to a buggies page. Pass the currently logged in users ID to show relationship between the user and their neww buggie.
 
