@@ -11,8 +11,8 @@ exports.up = function(knex) {
     })
     .createTable('buggies', buggies => {
       buggies.increments()
-      buggies.boolean('is_double').defaultTo(false)
-      buggies.boolean('available').defaultTo(true)
+      buggies.boolean('is_double')
+      buggies.boolean('available')
       buggies.string('location').notNullable().notNullable()
     })
     .createTable('user_buggies', obuggies => {
