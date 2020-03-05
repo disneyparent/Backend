@@ -5,7 +5,7 @@ const Buggies = require('./buggies-model.js');
 router.get('/', (req, res) => {
   Buggies.find()
     .then(bugs => {
-      res.json(bugs);
+      res.json(bugs)
     })
     .catch(err => res.send(err));
 });
@@ -15,8 +15,8 @@ router.get('/pickedup', (req, res) => {
       .then(bugs => {
         res.json(bugs);
       })
-      .catch(err => res.send(err));
-  });
+      .catch(err => res.send(err))
+  })
 
 router.get('/:id', (req, res) => {
     const { id } = req.params;
@@ -32,10 +32,10 @@ router.get('/:id', (req, res) => {
     .catch(err => {
         console.log(err)
         res.status(500).json({ message: 'Failed to get buggie' });
-    });
-});
+    })
+})
 
-router.put('/:id', (req, res) => {
+router.put('/:id', updateBuggie, (req, res) => {
     const { id } = req.params
 
     Buggies.findById(id)
@@ -43,8 +43,8 @@ router.put('/:id', (req, res) => {
         if (bug) {
             Buggies.update(req.body, id)
             .then(updatedbug => {
-                res.json(updatedbug);
-        });
+                res.json(updatedbug)
+        })
         } else {
             res.status(404).json({ message: 'Could not find buggie with given id' });
         }
@@ -52,18 +52,18 @@ router.put('/:id', (req, res) => {
     .catch (err => {
         console.log(err)
         res.status(500).json({ message: 'Failed to update buggie' });
-    });
-});
+    })
+})
 
 router.post('/', validateBuggie, (req, res) => {
     Buggies.addBuggie(req.body)
     .then(buggie => {
-        res.status(201).json(buggie);
+        res.status(201).json(buggie)
     })
     .catch (err => {
         console.log(err)
         res.status(500).json({ message: 'Failed to create new buggie' });
-    });
+    })
 })
 
 router.post('/:id/pickup', validateRelationship, (req, res) => {
@@ -74,7 +74,7 @@ router.post('/:id/pickup', validateRelationship, (req, res) => {
         if (buggie) {
             Buggies.pickupBuggie(req.body, id)
             .then(buggie => {
-                res.status(201).json(buggie);
+                res.status(201).json(buggie)
             })
         } else {
             res.status(404).json({ message: 'Could not find buggie with given task id.' })
@@ -83,8 +83,8 @@ router.post('/:id/pickup', validateRelationship, (req, res) => {
     .catch (err => {
         console.log(err)
         res.status(500).json({ message: 'Failed to create new buggie relationship' });
-    });
-});
+    })
+})
 
 
 
@@ -94,21 +94,30 @@ router.delete('/:id', (req, res) => {
     Buggies.remove(id)
     .then(deleted => {
         if (deleted) {
-            res.json({ removed: deleted });
+            res.json({ removed: deleted })
         } else {
-            res.status(404).json({ message: 'Could not find buggie with given id' });
+            res.status(404).json({ message: 'Could not find buggie with given id' })
         }
     })
     .catch(err => {
         console.log(err)
-        res.status(500).json({ message: 'Failed to delete buggie' });
-    });
-});
+        res.status(500).json({ message: 'Failed to delete buggie' })
+    })
+})
 
 function validateBuggie (req, res, next) {
-    console.log(`middleware validate project ${req.body.location}`)
+    console.log(`middleware validate buggie ${req.body.location}`)
     if(!req.body.location){
         res.status(400).json({ message: 'Buggie does not have a location' })
+    }else{
+      next()
+    }
+}
+
+function updateBuggie (req, res, next) {
+    console.log(`middleware update buggie ${req.body.available}`)
+    if(!req.body.available){
+        res.status(400).json({ message: 'Buggie does not update available' })
     }else{
       next()
     }
