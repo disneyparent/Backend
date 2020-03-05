@@ -107,3 +107,4 @@ dist
 .vscode-test
 
 #SQLite3 Database
+*.db3
