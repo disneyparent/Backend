@@ -18,7 +18,7 @@ router.get('/pickedup', (req, res) => {
       .catch(err => res.send(err))
   })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', idBuggie, (req, res) => {
     const { id } = req.params;
   
     Buggies.findById(id)
@@ -35,7 +35,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.put('/:id', updateBuggie, (req, res) => {
+router.put('/:id', idBuggie, updateBuggie, (req, res) => {
     const { id } = req.params
 
     Buggies.findById(id)
@@ -88,7 +88,7 @@ router.post('/:id/pickup', validateRelationship, (req, res) => {
 
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', idBuggie, (req, res) => {
     const { id } = req.params;
   
     Buggies.remove(id)
@@ -112,6 +112,18 @@ function validateBuggie (req, res, next) {
     }else{
       next()
     }
+}
+
+function idBuggie (req, res, next) {
+    const { id } = req.params
+    Buggies.findById(id)
+        .then(result => {
+            if(result && Object.entries(result).length){
+                next()
+            }else {
+                res.status(400).json({ message: 'Buggie does not exist' })
+            }
+        })
 }
 
 function updateBuggie (req, res, next) {

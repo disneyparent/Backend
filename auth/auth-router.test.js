@@ -12,12 +12,13 @@ describe('Authentication', function() {
             return request(server).get('/')
                 .then(res => {
                     expect(res.status).toBe(200)
-                    expect(res.type).toMatch(/json/i)
+                    expect(res.type).toMatch(/json/gi)
                     expect(res.body.thing).toBe("Cool")
                     expect(res.body.yep).toBe("yes")
                 })
         })
     })
+
     describe('Creating new user', function() {
         const newUser = {
             username: 'thetestinguser',
@@ -29,17 +30,20 @@ describe('Authentication', function() {
                 .send(newUser)
                 .then(res => {
                     expect(res.status).toBe(201)
-                    expect(res.type).toMatch(/json/i)
+                    expect(res.type).toMatch(/json/gi)
                 })
         })
     })
-    it('login new user', function() {
-        return request(server)
-            .post('/api/auth/login')
-            .send({username: 'tyler', password: 'tyler'})
-            .then(res => {
-                expect(res.type).toMatch("text/html")
-            })
+    //this one is weird, only works when tyler is in database i think?
+    //cannot login with user above
+    describe('Login', function () {
+        it('login new user', function() {
+            return request(server)
+                .post('/api/auth/login')
+                .send({username: 'tyler', password: 'tyler'})
+                .then(res => {
+                    expect(res.type).toMatch("application/json")
+                })
+        })
     })
-    
 })
