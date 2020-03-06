@@ -35,13 +35,13 @@ router.get('/:id', idBuggie, (req, res) => {
     })
 })
 
-router.put('/:id', idBuggie, updateBuggie, (req, res) => {
+router.put('/:id', idBuggie, (req, res) => {
     const { id } = req.params
 
     Buggies.findById(id)
     .then(bug => {
         if (bug) {
-            Buggies.update(req.body, id)
+            Buggies.update(id, req.body)
             .then(updatedbug => {
                 res.json(updatedbug)
         })

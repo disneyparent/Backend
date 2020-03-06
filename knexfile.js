@@ -8,6 +8,7 @@ module.exports = {
       filename: './database/disneyusers.db3'
     },
     useNullAsDefault: true,
+  
   },
 
   staging: {
