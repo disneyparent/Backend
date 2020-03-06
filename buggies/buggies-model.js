@@ -19,10 +19,11 @@ function findBy(filter) {
   return db('buggies').where(filter);
 }
 
-function update(id, changes){
+function update (id, changes){
     return db('buggies')
-        .where({ id })
-        .update(changes)
+      .where({ id })
+      .update(changes)
+
 }
 
 function findById(id) {
